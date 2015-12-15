@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href="../Content/materialize-v0.97.1/css/materialize.css" rel="stylesheet" />
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title></title>
+</head>
+<body>
+    <div class="container" ng-app="apiREST" ng-controller="getAllUsuario as usuarios">
+        
+        <ul class="collection">
+            <li class="collection-item" ng-repeat="u in usuarios.usuarios">
+                <span>{{u.nombres}}</span> 
+                <span><a ng-click="usuarios.getById(u.idusuario)" class="btn">Modificar</a></span>
+                <span><a ng-click="usuarios.DeleteById(u.idusuario)" class="btn">Eliminar</a></span>
+            </li>
+        </ul>
+        <br />
+        <br />
+        <button class="btn" ng-click="usuarios.getAll()">Cargar todos los usuarios</button>
+
+        <form>
+            <h1 class="flow-text">Registro</h1>
+            <div class="input-field" ng-model="usuarios.Newusuario">
+                <input type="text" ng-model="usuarios.Newusuario.nombres" />
+                <input type="text" ng-model="usuarios.Newusuario.apellidos" />
+                <button ng-click="usuarios.Add()" class="btn">Crear</button>
+            </div>
+        </form>
+
+        <form>
+            <h1 class="flow-text">Modificar</h1>
+            <div class="input-field" ng-model="usuarios.Oldusuario">
+                <input type="hidden" ng-model="usuarios.Oldusuario.idusuario" readonly/>
+                <input type="text" ng-model="usuarios.Oldusuario.nombres" />
+                <input type="text" ng-model="usuarios.Oldusuario.apellidos" />
+                <button ng-click="usuarios.Update()" class="btn">Modificar</button>
+            </div>
+        </form>
+    </div>
+
+    
+    
+    <script src="../Scripts/jquery-1.10.2.js"></script>
+    <script src="../Content/materialize-v0.97.1/js/materialize.js"></script>
+    <script src="../Scripts/angular.js"></script>
+    <script>
+        angular.module('apiREST', []).controller("getAllUsuario", ['$http', getAllUsuario]);
+
+        function getAllUsuario($http) {
+            var usuarios = this;
+            usuarios.Newusuario = {};
+            usuarios.Oldusuario = {};
+            
+            usuarios.getAll = function () {
+                $http.get('/api/Usuarios/').success(function (data) {
+                    usuarios.usuarios = data;
+                });
+            }
+
+            usuarios.getById = function (id) {
+                $http.get('/api/Usuarios/' + id).success(function (data) {
+                    console.log(JSON.stringify(data));
+                    usuarios.Oldusuario = data;
+                });
+            }
+
+            usuarios.DeleteById = function (id) {
+                $http.delete('/api/Usuarios/' + id).success(function () {
+                    usuarios.getAll();
+                });
+            }
+
+            usuarios.Add = function () {
+                $http.post('/api/Usuarios/', usuarios.Newusuario).success(function () {
+                    usuarios.getAll();
+                });
+            }
+
+            usuarios.Update = function () {
+                $http.put('/api/Usuarios/' + usuarios.Oldusuario.idusuario, usuarios.Oldusuario).success(function () {
+                    usuarios.getAll();
+                });
+            }
+
+        }
+    </script>
+</body>
+</html>

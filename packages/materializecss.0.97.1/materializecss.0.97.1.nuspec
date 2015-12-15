@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>materializecss</id>
+    <version>0.97.1</version>
+    <title>Materialize CSS</title>
+    <authors>Abdul Ahad</authors>
+    <owners>Abdul Ahad</owners>
+    <projectUrl>http://materializecss.com/getting-started.html</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Created and designed by Google, Material Design is a design language that combines the classic principles of successful design along with innovation and technology. Google's goal is to develop a system of design that allows for a unified user experience across all their products on any platform.</description>
+    <tags>materialize design css js</tags>
+  </metadata>
+</package>
